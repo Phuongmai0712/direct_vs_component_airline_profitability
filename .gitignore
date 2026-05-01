@@ -1,0 +1,41 @@
+# Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Virtual environment directories
+.venv/
+env/
+venv/
+
+# Data files
+data/  # If you decide not to upload the dataset to GitHub
+
+# .env file for storing environment variables (if applicable)
+.env
+
+# Logs or any generated file from the process
+logs/
+*.log
+
+# Results folder (you can keep results separate if needed)
+results/
+
+# Temporary or cache files
+*.temp
+*.bak
+*.swp
+
+# IDE specific files (for VS Code, PyCharm, etc.)
+.vscode/
+.idea/
+
+# System-specific files
+.DS_Store  # MacOS
+Thumbs.db  # Windows
+
+# Optional: Include file extensions that could be large like CSVs, HDF5
+# You can add any specific large files to ignore if needed
