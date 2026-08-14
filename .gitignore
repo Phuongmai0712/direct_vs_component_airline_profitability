@@ -11,9 +11,6 @@ __pycache__/
 env/
 venv/
 
-# Data files
-data/  # If you decide not to upload the dataset to GitHub
-
 # .env file for storing environment variables (if applicable)
 .env
 
@@ -21,7 +18,7 @@ data/  # If you decide not to upload the dataset to GitHub
 logs/
 *.log
 
-# Results folder (you can keep results separate if needed)
+# Results folder 
 results/
 
 # Temporary or cache files
@@ -36,6 +33,3 @@ results/
 # System-specific files
 .DS_Store  # MacOS
 Thumbs.db  # Windows
-
-# Optional: Include file extensions that could be large like CSVs, HDF5
-# You can add any specific large files to ignore if needed
