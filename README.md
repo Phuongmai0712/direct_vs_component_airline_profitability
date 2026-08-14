@@ -1,91 +1,76 @@
-# Airline Profitability Prediction: Comparing Direct vs. Component-Based Approaches
+# Airline Profitability: Direct vs. Component-Based Prediction
 
-## Project Overview
+A machine learning project comparing two ways to estimate airline route profit margin:
 
-This project focuses on analyzing and predicting the profitability of airline routes using machine learning techniques. The core objective is to compare two different approaches for forecasting **profit margins**:
+- **Direct:** predict profit margin directly.
+- **Component-based:** predict total revenue and total cost separately, then reconstruct profit margin.
 
-- **Direct Approach**: Predicting the profit margin directly using machine learning models.
-- **Indirect (Component-Based) Approach**: Predicting key components of profit (revenue and cost) separately and then computing the final profit margin.
-
-We aim to determine which approach performs better for predicting profitability in the airline sector, with a particular focus on model evaluation, interpretability, and real-world applicability.
-
-## Key Features
-
-- **Data Preprocessing**: Handling missing values, feature engineering, and preparing the dataset for modeling.
-- **Modeling Approaches**: Comparison of **Linear Regression**, **Random Forest**, and **XGBoost** models.
-- **Performance Metrics**: Evaluation based on **RMSE**, **MAE**, and **R²**.
-- **Explainability**: Use of **SHAP** values to explain the contributions of different features to the model predictions.
+The aim is not only to compare predictive accuracy, but also to understand whether modelling the financial components separately produces a more useful profitability estimate.
 
 ## Dataset
 
-The dataset used in this project is from Kaggle: [Airline Route Profitability and Cost Analysis](https://www.kaggle.com/datasets/waleedfaheem/airline-route-profitability-and-cost-analysis). It contains operational and financial data of airline routes, including information about ticket sales, costs, and profitability across different routes.
+The analysis uses the Kaggle [Airline Route Profitability and Cost Analysis](https://www.kaggle.com/datasets/waleedfaheem/airline-route-profitability-and-cost-analysis) dataset with **7,974 rows and 33 variables** covering route characteristics, demand, aircraft operations, revenue and costs.
 
-Key attributes include:
-- **Revenue-related variables**: Ticket revenue, ancillary revenue, total revenue.
-- **Cost-related variables**: Fuel cost, maintenance cost, crew cost, and more.
-- **Operational variables**: Load factor, aircraft capacity, flight hours.
+The workflow includes consistency checks, missing-value treatment, exploratory analysis and feature engineering before modelling.
 
-## Methodology
+## Approach
 
-1. **Data Preprocessing**: 
-    - Missing data imputation using logic calculation and medians.
-    - Feature engineering to create meaningful derived variables (e.g., revenue per passenger, cost per passenger).
+Three regression models were compared:
 
-2. **Modeling**: 
-    - **Direct Approach**: Profit margin is predicted directly using a machine learning model.
-    - **Indirect Approach**: Revenue and cost are predicted separately using machine learning, and the profit margin is calculated from these components.
-    - Models compared include **Linear Regression**, **Random Forest**, and **XGBoost**.
+- Linear Regression
+- Random Forest
+- XGBoost
 
-3. **Evaluation**: 
-    - Metrics such as **RMSE**, **MAE**, and **R²** are used to assess model performance.
-    - **SHAP** values are used to provide insights into the feature importance for each model.
+Models use route and operational information such as destination, aircraft type, season, route category, demand level, aircraft capacity, load factor and flight hours.
 
-## How to Run the Code
+Performance was evaluated using **RMSE, MAE and R²**.
 
-1. **Clone the Repository**:
-    ```bash
-    git clone https://github.com/username/project-name.git
-    cd project-name
-    ```
+For interpretability, the analysis also uses:
 
-2. **Install Dependencies**:
-    Ensure you have **Python 3.x** installed and then use the following command to install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
+- Linear Regression coefficients
+- SHAP analysis for XGBoost profit-margin, revenue and cost models
 
-3. **Run the Analysis**:
-    - Navigate to the `notebooks/` directory and open `analysis_notebook.ipynb`.
-    - Follow the steps in the notebook to load the data, perform the analysis, train the models, and evaluate performance.
+## Key Results
 
-4. **Model Training and Evaluation**:
-    - The models are trained and evaluated within the notebook. You can use different approaches by running the respective cells and viewing the results.
+| Model | Direct RMSE | Direct R² | Component RMSE | Component R² |
+|---|---:|---:|---:|---:|
+| Linear Regression | **21.16** | **0.698** | 63.26 | -1.701 |
+| XGBoost | 21.51 | 0.688 | **21.75** | **0.681** |
+| Random Forest | 22.23 | 0.667 | 22.61 | 0.655 |
 
-## Results
+**Main finding:** direct profit-margin prediction performed better than the component-based approach for all three model families.
 
-- **Best Model**: The **Linear Regression** model performed the best for **direct prediction** of the profit margin.
-- **Model Performance**: Results are evaluated based on **RMSE**, **MAE**, and **R²**, with the **XGBoost** model performing well for indirect predictions (component-wise prediction).
-- **SHAP Analysis**: SHAP values provide insights into the contribution of each feature, highlighting the most influential factors for profitability.
+Linear Regression produced the strongest direct result, while XGBoost produced the strongest component-based result. The component models were able to predict revenue and cost relatively well, but reconstructing profit margin from two separate predictions introduced additional error. This was particularly visible for Linear Regression.
 
-## Files in the Repository
+## Repository Structure
 
-- `/data`: Contains the raw dataset used for analysis.
-- `/notebooks`: Jupyter notebooks for data analysis and model building.
-- `/src`: Python scripts for preprocessing, training, and evaluating models.
-- `/results`: Contains model results, including evaluation metrics and SHAP plots.
-- `README.md`: This file providing an overview of the project.
-- `requirements.txt`: Python dependencies needed to run the project.
+```text
+.
+├── data/
+│   └── airline_route_profitability.csv
+├── notebooks/
+│   └── airline_profitability_analysis.ipynb
+├── requirements.txt
+├── .gitignore
+├── LICENSE
+└── README.md
+```
 
-## Contributing
+## Run Locally
 
-If you would like to contribute to this project, feel free to fork the repository, make changes, and create a pull request. Please ensure that all code adheres to the style guidelines, and include explanations for any changes made.
+```bash
+git clone https://github.com/Phuongmai0712/direct_vs_component_airline_profitability.git
+cd direct_vs_component_airline_profitability
+pip install -r requirements.txt
+jupyter notebook notebooks/airline_profitability_analysis.ipynb
+```
+
+> **Note:** the notebook should load the dataset using the repository-relative path `../data/airline_route_profitability.csv` when run from the `notebooks/` directory.
+
+## Tools
+
+Python · pandas · NumPy · SciPy · scikit-learn · XGBoost · SHAP · Matplotlib · Seaborn
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgements
-
-- **Kaggle** for providing the dataset [Airline Route Profitability and Cost Analysis](https://www.kaggle.com/datasets/waleedfaheem/airline-route-profitability-and-cost-analysis).
-- **SHAP** for model explainability.
-- **Scikit-learn**, **XGBoost**, **LightGBM**, and other libraries for machine learning tools.
+MIT License.
